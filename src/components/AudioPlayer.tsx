@@ -120,7 +120,7 @@ export default function AudioPlayer({ audioSrc, autoPlay = false }: AudioPlayerP
       animationFrameRef.current = requestAnimationFrame(draw);
       analyser.getByteFrequencyData(dataArray);
 
-      ctx.fillStyle = 'rgba(247, 250, 252, 0.1)';
+      ctx.fillStyle = 'rgba(250, 245, 255, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       const barWidth = canvas.width / bufferLength * 2.5;
@@ -131,9 +131,9 @@ export default function AudioPlayer({ audioSrc, autoPlay = false }: AudioPlayerP
         barHeight = (dataArray[i] / 255) * canvas.height * 0.8;
 
         const gradient = ctx.createLinearGradient(0, canvas.height, 0, canvas.height - barHeight);
-        gradient.addColorStop(0, '#0ea5e9');
-        gradient.addColorStop(0.5, '#38bdf8');
-        gradient.addColorStop(1, '#7dd3fc');
+        gradient.addColorStop(0, '#a855f7');
+        gradient.addColorStop(0.5, '#c084fc');
+        gradient.addColorStop(1, '#fb923c');
 
         ctx.fillStyle = gradient;
         ctx.fillRect(x, canvas.height - barHeight, barWidth - 1, barHeight);

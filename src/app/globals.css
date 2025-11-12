@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 45, 55, 72;
-  --background-start-rgb: 247, 250, 252;
-  --background-end-rgb: 237, 242, 247;
+  --foreground-rgb: 55, 48, 72;
+  --background-start-rgb: 250, 245, 255;
+  --background-end-rgb: 255, 247, 237;
 }
 
 * {
@@ -46,34 +46,34 @@ html {
 /* Hide scrollbar but keep functionality */
 body {
   scrollbar-width: thin;
-  scrollbar-color: rgba(148, 163, 184, 0.5) transparent;
+  scrollbar-color: rgba(216, 180, 254, 0.5) transparent;
 }
 
 /* Custom selection color */
 ::selection {
-  background-color: rgba(14, 165, 233, 0.3);
+  background-color: rgba(168, 85, 247, 0.3);
   color: inherit;
 }
 
 ::-moz-selection {
-  background-color: rgba(14, 165, 233, 0.3);
+  background-color: rgba(168, 85, 247, 0.3);
   color: inherit;
 }
 
-/* Custom scrollbar for calm aesthetic */
+/* Custom scrollbar for sunset aesthetic */
 ::-webkit-scrollbar {
   width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f7fafc;
+  background: #faf5ff;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e0;
+  background: #d8b4fe;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a0aec0;
+  background: #c084fc;
 }

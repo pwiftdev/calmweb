@@ -26,11 +26,11 @@ export default function CalmLoader({ show, onEnter }: CalmLoaderProps) {
             className="absolute inset-0 bg-gradient-to-br from-calm-100 via-nourish-100 to-calm-200"
             animate={{
               background: [
-                'linear-gradient(135deg, #f0f9ff 0%, #dcfce7 50%, #e0f2fe 100%)',
-                'linear-gradient(225deg, #e0f2fe 0%, #f0f9ff 50%, #dcfce7 100%)',
-                'linear-gradient(315deg, #dcfce7 0%, #e0f2fe 50%, #f0f9ff 100%)',
-                'linear-gradient(45deg, #f0f9ff 0%, #e0f2fe 50%, #dcfce7 100%)',
-                'linear-gradient(135deg, #f0f9ff 0%, #dcfce7 50%, #e0f2fe 100%)',
+                'linear-gradient(135deg, #faf5ff 0%, #ffedd5 50%, #e9d5ff 100%)',
+                'linear-gradient(225deg, #e9d5ff 0%, #faf5ff 50%, #ffedd5 100%)',
+                'linear-gradient(315deg, #ffedd5 0%, #e9d5ff 50%, #faf5ff 100%)',
+                'linear-gradient(45deg, #faf5ff 0%, #e9d5ff 50%, #ffedd5 100%)',
+                'linear-gradient(135deg, #faf5ff 0%, #ffedd5 50%, #e9d5ff 100%)',
               ],
             }}
             transition={{
@@ -153,7 +153,7 @@ export default function CalmLoader({ show, onEnter }: CalmLoaderProps) {
               onClick={handleEnter}
               whileHover={{ scale: 1.05, y: -5 }}
               whileTap={{ scale: 0.95 }}
-              className="px-12 py-5 bg-gradient-to-r from-calm-500 to-calm-600 text-white rounded-full text-xl md:text-2xl font-medium shadow-2xl hover:shadow-calm-500/50 transition-all duration-300"
+              className="px-12 py-5 bg-gradient-to-r from-calm-500 via-nourish-500 to-calm-600 text-white rounded-full text-xl md:text-2xl font-medium shadow-2xl hover:shadow-calm-500/50 transition-all duration-300"
             >
               Enter
             </motion.button>

@@ -123,19 +123,45 @@ export default function Home() {
       <section ref={heroRef} className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 py-12 sm:py-16 md:py-20 overflow-hidden w-full max-w-full">
         {/* Animated Gradient Background */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-calm-100 via-nourish-100 to-calm-200"
+          className="absolute inset-0 bg-gradient-to-br from-calm-200 via-nourish-200 to-calm-300"
           animate={{
             background: [
-              'linear-gradient(135deg, #f0f9ff 0%, #dcfce7 50%, #e0f2fe 100%)',
-              'linear-gradient(225deg, #e0f2fe 0%, #f0f9ff 50%, #dcfce7 100%)',
-              'linear-gradient(315deg, #dcfce7 0%, #e0f2fe 50%, #f0f9ff 100%)',
-              'linear-gradient(135deg, #f0f9ff 0%, #dcfce7 50%, #e0f2fe 100%)',
+              'linear-gradient(135deg, #e9d5ff 0%, #fed7aa 30%, #c084fc 60%, #fb923c 100%)',
+              'linear-gradient(225deg, #c084fc 0%, #e9d5ff 30%, #fb923c 60%, #fed7aa 100%)',
+              'linear-gradient(315deg, #fb923c 0%, #c084fc 30%, #fed7aa 60%, #e9d5ff 100%)',
+              'linear-gradient(45deg, #fed7aa 0%, #fb923c 30%, #e9d5ff 60%, #c084fc 100%)',
+              'linear-gradient(135deg, #e9d5ff 0%, #fed7aa 30%, #c084fc 60%, #fb923c 100%)',
             ],
           }}
           transition={{
             duration: 20,
             repeat: Infinity,
             ease: "linear",
+          }}
+        />
+        
+        {/* Additional sunset overlay layers */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-t from-nourish-400/30 via-transparent to-calm-400/20"
+          animate={{
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-b from-calm-500/10 via-transparent to-nourish-500/20"
+          animate={{
+            opacity: [0.2, 0.4, 0.2],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
           }}
         />
 
@@ -153,13 +179,14 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Large floating orbs */}
+        {/* Large floating orbs - Enhanced sunset colors */}
         <motion.div
-          className="absolute top-10 sm:top-20 left-0 sm:left-10 w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 bg-calm-300/20 rounded-full blur-3xl"
+          className="absolute top-10 sm:top-20 left-0 sm:left-10 w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 bg-calm-400/30 rounded-full blur-3xl"
           animate={{
             x: [0, 50, 0],
             y: [0, -25, 0],
             scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3],
           }}
           transition={{
             duration: 15,
@@ -168,17 +195,34 @@ export default function Home() {
           }}
         />
         <motion.div
-          className="absolute bottom-10 sm:bottom-20 right-0 sm:right-10 w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 bg-nourish-300/20 rounded-full blur-3xl"
+          className="absolute bottom-10 sm:bottom-20 right-0 sm:right-10 w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 bg-nourish-400/30 rounded-full blur-3xl"
           animate={{
             x: [0, -50, 0],
             y: [0, 25, 0],
             scale: [1, 1.3, 1],
+            opacity: [0.3, 0.5, 0.3],
           }}
           transition={{
             duration: 18,
             repeat: Infinity,
             ease: "easeInOut",
             delay: 2,
+          }}
+        />
+        {/* Additional sunset orb */}
+        <motion.div
+          className="absolute top-1/2 right-1/4 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-gradient-to-br from-calm-500/20 to-nourish-500/20 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.4, 1],
+            opacity: [0.2, 0.4, 0.2],
+            x: [0, 30, 0],
+            y: [0, -20, 0],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
           }}
         />
 
@@ -243,7 +287,7 @@ export default function Home() {
             transition={{ duration: 1.5, delay: 0.9 }}
             className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-calm-700 font-light mb-8 sm:mb-12 max-w-4xl mx-auto leading-relaxed px-2"
           >
-            In the mayhem of crypto, there&apos;s one thing to remember:
+            In the mayhem of crypto, there's one thing to remember:
             <br />
             <motion.span
               initial={{ opacity: 0 }}
@@ -263,34 +307,38 @@ export default function Home() {
             className="mb-8 sm:mb-10 flex flex-col items-center gap-3 sm:gap-4 w-full px-4"
           >
             <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 sm:gap-4 bg-white/90 backdrop-blur-md px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-full shadow-2xl border-2 border-calm-200/60 w-full max-w-full sm:max-w-none"
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={copyToClipboard}
+              className="group relative flex items-center justify-center gap-3 sm:gap-4 bg-white/95 backdrop-blur-md px-6 sm:px-8 md:px-10 py-4 sm:py-5 rounded-2xl shadow-2xl border-2 border-calm-200/60 hover:border-calm-300/80 transition-all duration-300 cursor-pointer w-full max-w-2xl mx-auto"
             >
-              <span className="text-xs sm:text-sm md:text-base text-calm-600 font-mono font-semibold whitespace-nowrap">CA:</span>
-              <span className="text-xs sm:text-sm md:text-base text-calm-800 font-mono break-all">{CONTRACT_ADDRESS}</span>
-              <motion.button
-                onClick={copyToClipboard}
-                whileHover={{ scale: 1.1, rotate: 5 }}
+              <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+                <span className="text-xs sm:text-sm md:text-base text-calm-500 font-semibold whitespace-nowrap flex-shrink-0">Contract:</span>
+                <span className="text-xs sm:text-sm md:text-base text-calm-800 font-mono text-center flex-1 truncate">
+                  {CONTRACT_ADDRESS}
+                </span>
+              </div>
+              <motion.div
+                whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.9 }}
-                className="ml-2 p-2 hover:bg-calm-100 rounded-full transition-colors"
-                aria-label="Copy contract address"
+                className="flex-shrink-0 p-2 bg-calm-100/50 group-hover:bg-calm-200/70 rounded-lg transition-colors"
               >
                 {copied ? (
-                  <FaCheck className="text-nourish-500" size={20} />
+                  <FaCheck className="text-nourish-500" size={18} />
                 ) : (
-                  <FaCopy className="text-calm-600" size={20} />
+                  <FaCopy className="text-calm-600 group-hover:text-calm-700" size={18} />
                 )}
-              </motion.button>
+              </motion.div>
             </motion.div>
             {copied && (
               <motion.p
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="text-base text-nourish-600 font-medium"
+                className="text-sm sm:text-base text-nourish-600 font-medium flex items-center gap-2"
               >
-                Copied!
+                <FaCheck className="text-nourish-500" size={14} />
+                Contract address copied!
               </motion.p>
             )}
           </motion.div>
@@ -308,7 +356,7 @@ export default function Home() {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05, y: -5 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 bg-gradient-to-r from-calm-500 to-calm-600 text-white rounded-full text-base sm:text-lg md:text-xl font-medium shadow-2xl hover:shadow-calm-500/50 transition-all duration-300 w-full sm:w-auto"
+              className="inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 bg-gradient-to-r from-calm-500 via-nourish-500 to-calm-600 text-white rounded-full text-base sm:text-lg md:text-xl font-medium shadow-2xl hover:shadow-calm-500/50 transition-all duration-300 w-full sm:w-auto"
             >
               View on Pump.fun
               <HiExternalLink size={18} className="sm:w-5 sm:h-5" />
@@ -427,7 +475,7 @@ export default function Home() {
               },
               {
                 type: 'transition',
-                text: 'But in the chaos, there&apos;s clarity:',
+                text: "But in the chaos, there's clarity:",
                 highlight: true,
               },
               {
@@ -527,7 +575,7 @@ export default function Home() {
                   transition={{ delay: 0.8 }}
                   className="text-xl md:text-2xl lg:text-3xl text-calm-700 font-light"
                 >
-                  $calm isn&apos;t about avoiding the storm.
+                  $calm isn't about avoiding the storm.
                 </motion.p>
                 <motion.p
                   initial={{ opacity: 0 }}
@@ -536,7 +584,7 @@ export default function Home() {
                   transition={{ delay: 1 }}
                   className="text-xl md:text-2xl lg:text-3xl text-calm-700 font-light"
                 >
-                  It&apos;s about finding peace within it.
+                  It's about finding peace within it.
                 </motion.p>
               </div>
             </motion.div>
@@ -670,7 +718,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="relative py-12 sm:py-16 px-4 sm:px-6 bg-gradient-to-b from-calm-800 via-calm-900 to-calm-950 text-white text-center overflow-hidden w-full max-w-full">
+      <footer className="relative py-12 sm:py-16 px-4 sm:px-6 bg-gradient-to-b from-calm-800 via-calm-900 to-calm-900 text-white text-center overflow-hidden w-full max-w-full">
         {/* Animated background pattern */}
         <div className="absolute inset-0 opacity-10">
           {Array.from({ length: 50 }).map((_, i) => (
@@ -751,14 +799,14 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="mt-6 flex items-center justify-center gap-3 text-calm-400 text-sm font-mono"
+            className="mt-6 flex items-center justify-center gap-3 text-calm-300 text-xs sm:text-sm font-mono max-w-full px-4"
           >
-            <span>{CONTRACT_ADDRESS}</span>
+            <span className="truncate max-w-[calc(100%-60px)]">{CONTRACT_ADDRESS}</span>
             <motion.button
               onClick={copyToClipboard}
               whileHover={{ scale: 1.2 }}
               whileTap={{ scale: 0.9 }}
-              className="p-1 hover:text-white transition-colors"
+              className="p-1.5 hover:text-white hover:bg-calm-700/50 rounded-lg transition-colors flex-shrink-0"
               aria-label="Copy contract address"
             >
               {copied ? (
