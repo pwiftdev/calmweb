@@ -287,7 +287,7 @@ export default function Home() {
             transition={{ duration: 1.5, delay: 0.9 }}
             className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-calm-700 font-light mb-8 sm:mb-12 max-w-4xl mx-auto leading-relaxed px-2"
           >
-            In the mayhem of crypto, there's one thing to remember:
+            In the mayhem of crypto, there&apos;s one thing to remember:
             <br />
             <motion.span
               initial={{ opacity: 0 }}
@@ -575,7 +575,7 @@ export default function Home() {
                   transition={{ delay: 0.8 }}
                   className="text-xl md:text-2xl lg:text-3xl text-calm-700 font-light"
                 >
-                  $calm isn't about avoiding the storm.
+                  $calm isn&apos;t about avoiding the storm.
                 </motion.p>
                 <motion.p
                   initial={{ opacity: 0 }}
@@ -584,7 +584,7 @@ export default function Home() {
                   transition={{ delay: 1 }}
                   className="text-xl md:text-2xl lg:text-3xl text-calm-700 font-light"
                 >
-                  It's about finding peace within it.
+                  It&apos;s about finding peace within it.
                 </motion.p>
               </div>
             </motion.div>
