@@ -1,6 +1,8 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import { useMemo } from 'react';
 
 interface CalmLoaderProps {
   show: boolean;
@@ -8,6 +10,36 @@ interface CalmLoaderProps {
 }
 
 export default function CalmLoader({ show, onEnter }: CalmLoaderProps) {
+  const memeAssets = [
+    'photo_2025-11-12 20.15.25.jpeg',
+    'photo_2025-11-12 20.15.50.jpeg',
+    'photo_2025-11-12 20.15.51 (1).jpeg',
+    'photo_2025-11-12 20.15.51.jpeg',
+    'photo_2025-11-12 20.15.52 (1).jpeg',
+    'photo_2025-11-12 20.15.52.jpeg',
+    'photo_2025-11-12 20.15.53.jpeg',
+    'photo_2025-11-12 20.15.54 (1).jpeg',
+    'photo_2025-11-12 20.15.54.jpeg',
+    'photo_2025-11-12 20.15.55.jpeg',
+  ];
+
+  const floatingMemes = useMemo(
+    () =>
+      Array.from({ length: 22 }, (_, i) => ({
+        id: i,
+        src: `/memes/${memeAssets[i % memeAssets.length]}`,
+        size: 70 + ((i * 17) % 80),
+        left: (i * 37) % 100,
+        top: (i * 29) % 100,
+        duration: 12 + (i % 8),
+        delay: (i % 6) * 0.35,
+        xAmp: 25 + (i % 5) * 8,
+        yAmp: 20 + (i % 4) * 10,
+        rotateAmp: 6 + (i % 4) * 2,
+      })),
+    []
+  );
+
   const handleEnter = () => {
     onEnter();
   };
@@ -81,31 +113,41 @@ export default function CalmLoader({ show, onEnter }: CalmLoaderProps) {
             }}
           />
 
-          {/* Floating particles */}
-          <div className="absolute inset-0 overflow-hidden">
-            {Array.from({ length: 30 }).map((_, i) => (
+          {/* Floating meme background */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {floatingMemes.map((meme) => (
               <motion.div
-                key={`particle-${i}`}
-                className="absolute rounded-full bg-gradient-to-br from-calm-300/30 to-nourish-300/30"
+                key={`loader-meme-${meme.id}`}
+                className="absolute rounded-2xl overflow-hidden shadow-2xl"
                 style={{
-                  width: 20 + Math.random() * 40,
-                  height: 20 + Math.random() * 40,
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
+                  left: `${meme.left}%`,
+                  top: `${meme.top}%`,
+                  width: meme.size,
+                  height: meme.size,
                 }}
+                initial={{ opacity: 0, scale: 0.85 }}
                 animate={{
-                  y: [0, -100, -200, -100, 0],
-                  x: [0, Math.random() * 100 - 50, Math.random() * 100 - 50, Math.random() * 100 - 50, 0],
-                  opacity: [0.2, 0.5, 0.7, 0.5, 0.2],
-                  scale: [1, 1.2, 1.5, 1.2, 1],
+                  x: [0, meme.xAmp, -meme.xAmp * 0.6, meme.xAmp * 0.35, 0],
+                  y: [0, -meme.yAmp, meme.yAmp * 0.7, -meme.yAmp * 0.4, 0],
+                  rotate: [0, meme.rotateAmp, -meme.rotateAmp, meme.rotateAmp * 0.4, 0],
+                  scale: [1, 1.06, 0.97, 1.04, 1],
+                  opacity: [0.25, 0.45, 0.35, 0.45, 0.25],
                 }}
                 transition={{
-                  duration: 10 + Math.random() * 10,
+                  duration: meme.duration,
                   repeat: Infinity,
-                  delay: Math.random() * 5,
-                  ease: "easeInOut",
+                  delay: meme.delay,
+                  ease: 'easeInOut',
                 }}
-              />
+              >
+                <Image
+                  src={meme.src}
+                  alt="Calm meme"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 72px, 120px"
+                />
+              </motion.div>
             ))}
           </div>
 

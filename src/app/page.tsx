@@ -21,237 +21,9 @@ const memes = [
   'photo_2025-11-12 20.15.55.jpeg',
 ];
 
-const CONTRACT_ADDRESS = 'BzvFzpYxT4G29AXpyu1pMR2Db1GTLM3Wvpw2i81Upump';
-const PUMPFUN_LINK = 'https://pump.fun/coin/BzvFzpYxT4G29AXpyu1pMR2Db1GTLM3Wvpw2i81Upump';
-const X_COMMUNITY_LINK = 'https://x.com/i/communities/1988658347789160516';
-
-// Format number for display
-const formatNumber = (num: number | null | undefined): string => {
-  if (!num || num === 0) return '$0';
-  if (num >= 1e9) return `$${(num / 1e9).toFixed(2)}B`;
-  if (num >= 1e6) return `$${(num / 1e6).toFixed(2)}M`;
-  if (num >= 1e3) return `$${(num / 1e3).toFixed(2)}K`;
-  return `$${num.toFixed(2)}`;
-};
-
-// Calm Charts Section Component
-const CalmChartsSection = () => {
-  const [chartData, setChartData] = useState<{
-    marketCap: number | null;
-    volume: number | null;
-    liquidity: number | null;
-  } | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const chartsRef = useRef(null);
-  const chartsInView = useInView(chartsRef, { once: true, amount: 0.2 });
-
-  useEffect(() => {
-    const fetchChartData = async () => {
-      try {
-        const response = await fetch('/api/dexscreener');
-        const result = await response.json();
-        
-        if (result.success && result.data) {
-          setChartData(result.data);
-          setError(null);
-        } else {
-          setError(result.error || 'Failed to fetch chart data');
-        }
-      } catch (err) {
-        setError('Failed to fetch chart data');
-        console.error('Chart data fetch error:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchChartData();
-    
-    // Refresh every 10 seconds (staying well under 290 requests/minute)
-    const interval = setInterval(fetchChartData, 10000);
-    
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <section ref={chartsRef} className="relative py-16 sm:py-20 md:py-32 px-4 sm:px-6 md:px-8 overflow-hidden w-full max-w-full">
-      {/* Background */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-b from-calm-50/50 via-white to-nourish-50/30"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1 }}
-      />
-
-      {/* Floating Calm Dog */}
-      <motion.div
-        className="absolute top-10 right-10 pointer-events-none z-5"
-        initial={{ opacity: 0, scale: 0 }}
-        whileInView={{ opacity: 0.6, scale: 1 }}
-        viewport={{ once: true }}
-        animate={{
-          y: [0, -20, 0],
-          rotate: [0, 5, -5, 0],
-        }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      >
-        <Image
-          src="/memes/calmpng.png"
-          alt="Calm dog"
-          width={80}
-          height={80}
-          className="drop-shadow-xl"
-        />
-      </motion.div>
-
-      <div className="max-w-6xl mx-auto relative z-10 w-full px-2 sm:px-4">
-        {/* Section Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12 md:mb-16"
-        >
-          <motion.h2
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-extralight text-calm-800 mb-6 md:mb-8 tracking-tight"
-          >
-            Calm Charts
-          </motion.h2>
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: '150px' }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.4 }}
-            className="h-1 bg-gradient-to-r from-calm-400 via-nourish-400 to-calm-400 mx-auto rounded-full"
-          />
-        </motion.div>
-
-        {/* Charts Grid */}
-        {loading ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex items-center justify-center py-20"
-          >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-              className="w-12 h-12 border-4 border-calm-300 border-t-calm-600 rounded-full"
-            />
-          </motion.div>
-        ) : error ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center py-20 text-calm-600"
-          >
-            <p className="text-lg">{error}</p>
-            <p className="text-sm mt-2 text-calm-500">Stay calm, data will load soon...</p>
-          </motion.div>
-        ) : chartData ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-            {/* Market Cap Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative p-8 md:p-10 rounded-3xl bg-gradient-to-br from-calm-100/60 via-white/90 to-nourish-100/40 backdrop-blur-sm border-2 border-calm-200/50 shadow-2xl"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-2xl md:text-3xl font-bold text-calm-700">Market Cap</h3>
-                <motion.div
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="w-3 h-3 bg-nourish-400 rounded-full"
-                />
-              </div>
-              <motion.p
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4 }}
-                className="text-4xl md:text-5xl lg:text-6xl font-bold text-calm-800 mb-2"
-              >
-                {formatNumber(chartData.marketCap)}
-              </motion.p>
-              <p className="text-sm text-calm-600 font-light">Total market value</p>
-            </motion.div>
-
-            {/* Volume Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="relative p-8 md:p-10 rounded-3xl bg-gradient-to-br from-nourish-100/60 via-white/90 to-calm-100/40 backdrop-blur-sm border-2 border-nourish-200/50 shadow-2xl"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-2xl md:text-3xl font-bold text-nourish-700">Volume</h3>
-                <motion.div
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-                  className="w-3 h-3 bg-calm-400 rounded-full"
-                />
-              </div>
-              <motion.p
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.6 }}
-                className="text-4xl md:text-5xl lg:text-6xl font-bold text-nourish-800 mb-2"
-              >
-                {formatNumber(chartData.volume)}
-              </motion.p>
-              <p className="text-sm text-nourish-600 font-light">24h trading volume</p>
-            </motion.div>
-
-            {/* Liquidity Card */}
-            {chartData.liquidity && (
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.8 }}
-                className="relative p-8 md:p-10 rounded-3xl bg-gradient-to-br from-nourish-50/60 via-white/90 to-calm-50/40 backdrop-blur-sm border-2 border-nourish-200/50 shadow-2xl"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-2xl md:text-3xl font-bold text-nourish-700">Liquidity</h3>
-                  <motion.div
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: 1 }}
-                    className="w-3 h-3 bg-calm-400 rounded-full"
-                  />
-                </div>
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 1 }}
-                  className="text-4xl md:text-5xl lg:text-6xl font-bold text-nourish-800 mb-2"
-                >
-                  {formatNumber(chartData.liquidity)}
-                </motion.p>
-                <p className="text-sm text-nourish-600 font-light">Pool liquidity</p>
-              </motion.div>
-            )}
-          </div>
-        ) : null}
-      </div>
-    </section>
-  );
-};
+const CONTRACT_ADDRESS = 'just stay calm, announcing soon';
+const PUMPFUN_LINK = 'https://pump.fun/coin/just stay calm, announcing soon';
+const X_COMMUNITY_LINK = 'https://x.com/i/communities/2007225787825697120';
 
 // Floating particles component
 const FloatingParticle = ({ delay, duration, size, x, y }: { delay: number; duration: number; size: number; x: string; y: string }) => (
@@ -656,8 +428,126 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* Calm Charts Section */}
-      <CalmChartsSection />
+      {/* Meme Gallery Section - Immersive Grid */}
+      <section ref={memesRef} className="relative py-16 sm:py-24 md:py-32 px-4 sm:px-6 overflow-hidden w-full max-w-full">
+        {/* Animated background */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-b from-white via-calm-50/50 to-nourish-50/30"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+        />
+
+        {/* Floating Calm Dogs in Meme Gallery */}
+        {[0, 1, 2].map((i) => (
+          <motion.div
+            key={`meme-dog-${i}`}
+            className="absolute pointer-events-none z-5"
+            style={{
+              left: `${10 + i * 35}%`,
+              top: `${15 + i * 30}%`,
+            }}
+            initial={{ opacity: 0, scale: 0 }}
+            whileInView={{ opacity: 0.5, scale: 1 }}
+            viewport={{ once: true }}
+            animate={{
+              y: [0, -25, 0],
+              x: [0, Math.sin(i * 2) * 20, 0],
+              rotate: [0, 8, -8, 0],
+              scale: [1, 1.15, 1],
+            }}
+            transition={{
+              duration: 7 + i * 1.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 1.2,
+            }}
+          >
+            <Image
+              src="/memes/calmpng.png"
+              alt="Calm dog"
+              width={70 + i * 10}
+              height={70 + i * 10}
+              className="drop-shadow-2xl"
+            />
+          </motion.div>
+        ))}
+
+        <div className="max-w-7xl mx-auto relative z-10 w-full px-2 sm:px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-20"
+          >
+            <motion.h2
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="text-6xl md:text-8xl font-extralight text-calm-800 mb-8 tracking-tight"
+            >
+              Stay Calm Memes
+            </motion.h2>
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: '200px' }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+              className="h-1 bg-gradient-to-r from-calm-400 via-nourish-400 to-calm-400 mx-auto rounded-full mb-6"
+            />
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-xl md:text-2xl text-calm-600 font-light"
+            >
+              A collection of calm vibes for your viewing pleasure
+            </motion.p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {memes.map((meme, index) => (
+              <motion.div
+                key={meme}
+                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+                whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.1,
+                  type: "spring",
+                  stiffness: 100,
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  rotate: 2,
+                  zIndex: 10,
+                }}
+                className="group relative overflow-hidden rounded-3xl shadow-2xl bg-white/90 backdrop-blur-sm"
+              >
+                <div className="aspect-square relative">
+                  <Image
+                    src={`/memes/${meme}`}
+                    alt={`Calm meme ${index + 1}`}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-125"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                  className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"
+                />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Narrative Section - Mobile-Friendly Storytelling */}
       <section ref={philosophyRef} className="relative py-16 sm:py-20 md:py-32 px-4 sm:px-6 md:px-8 overflow-hidden w-full max-w-full">
@@ -924,127 +814,6 @@ export default function Home() {
                 <span className="font-medium">stay calm.&rdquo;</span>
               </motion.p>
             </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Meme Gallery Section - Immersive Grid */}
-      <section ref={memesRef} className="relative py-16 sm:py-24 md:py-32 px-4 sm:px-6 overflow-hidden w-full max-w-full">
-        {/* Animated background */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-b from-white via-calm-50/50 to-nourish-50/30"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-        />
-
-        {/* Floating Calm Dogs in Meme Gallery */}
-        {[0, 1, 2].map((i) => (
-          <motion.div
-            key={`meme-dog-${i}`}
-            className="absolute pointer-events-none z-5"
-            style={{
-              left: `${10 + i * 35}%`,
-              top: `${15 + i * 30}%`,
-            }}
-            initial={{ opacity: 0, scale: 0 }}
-            whileInView={{ opacity: 0.5, scale: 1 }}
-            viewport={{ once: true }}
-            animate={{
-              y: [0, -25, 0],
-              x: [0, Math.sin(i * 2) * 20, 0],
-              rotate: [0, 8, -8, 0],
-              scale: [1, 1.15, 1],
-            }}
-            transition={{
-              duration: 7 + i * 1.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 1.2,
-            }}
-          >
-            <Image
-              src="/memes/calmpng.png"
-              alt="Calm dog"
-              width={70 + i * 10}
-              height={70 + i * 10}
-              className="drop-shadow-2xl"
-            />
-          </motion.div>
-        ))}
-
-        <div className="max-w-7xl mx-auto relative z-10 w-full px-2 sm:px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-20"
-          >
-            <motion.h2
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="text-6xl md:text-8xl font-extralight text-calm-800 mb-8 tracking-tight"
-            >
-              Stay Calm Memes
-            </motion.h2>
-            <motion.div
-              initial={{ width: 0 }}
-              whileInView={{ width: '200px' }}
-              viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              className="h-1 bg-gradient-to-r from-calm-400 via-nourish-400 to-calm-400 mx-auto rounded-full mb-6"
-            />
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-xl md:text-2xl text-calm-600 font-light"
-            >
-              A collection of calm vibes for your viewing pleasure
-            </motion.p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {memes.map((meme, index) => (
-              <motion.div
-                key={meme}
-                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-                whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.1,
-                  type: "spring",
-                  stiffness: 100,
-                }}
-                whileHover={{
-                  scale: 1.05,
-                  rotate: 2,
-                  zIndex: 10,
-                }}
-                className="group relative overflow-hidden rounded-3xl shadow-2xl bg-white/90 backdrop-blur-sm"
-              >
-                <div className="aspect-square relative">
-                  <Image
-                    src={`/memes/${meme}`}
-                    alt={`Calm meme ${index + 1}`}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-125"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                </div>
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                  className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"
-                />
-              </motion.div>
-            ))}
           </div>
         </div>
       </section>
