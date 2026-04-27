@@ -21,8 +21,8 @@ const memes = [
   'photo_2025-11-12 20.15.55.jpeg',
 ];
 
-const CONTRACT_ADDRESS = 'just stay calm, announcing soon';
-const PUMPFUN_LINK = 'https://pump.fun/coin/just stay calm, announcing soon';
+const CONTRACT_ADDRESS = '3PCLR93WQaFA3wXbHqp2WoXZUqeiP4kNTbURwY3ppump';
+const PUMPFUN_LINK = 'https://pump.fun/coin/3PCLR93WQaFA3wXbHqp2WoXZUqeiP4kNTbURwY3ppump';
 const X_COMMUNITY_LINK = 'https://x.com/i/communities/2007225787825697120';
 
 // Floating particles component
